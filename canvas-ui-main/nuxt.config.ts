@@ -1,9 +1,7 @@
+import tailwindcss from "@tailwindcss/vite"
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  
-  modules: [
-    '@nuxtjs/tailwindcss'
-  ],
 
   css: ['~/assets/css/main.css'],
 
@@ -18,7 +16,10 @@ export default defineNuxtConfig({
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Inter:wght@400;500&display=swap' }
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap'
+        }
       ]
     }
   },
@@ -31,6 +32,10 @@ export default defineNuxtConfig({
 
   typescript: {
     strict: true
+  },
+
+  vite: {
+    plugins: [tailwindcss()]
   },
 
   compatibilityDate: '2024-11-01'

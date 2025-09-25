@@ -1,102 +1,94 @@
 <template>
-  <header 
-    class="fixed top-0 left-0 right-0 z-50 transition-all duration-200"
-    :class="{ 'py-4': !isScrolled, 'py-2': isScrolled }"
-  >
-    <div class="container mx-auto px-4">
-      <nav class="glass-surface glass-hover rounded-full px-6 py-3">
-        <div class="flex items-center justify-between">
-          <!-- Logo -->
-          <NuxtLink to="/" class="flex items-center gap-3 group">
-            <div class="relative">
-              <!-- Animated stars around logo -->
-              <div class="absolute -inset-2">
-                <div class="w-1 h-1 bg-starlight rounded-full absolute top-0 left-0 animate-pulse"></div>
-                <div class="w-0.5 h-0.5 bg-violet rounded-full absolute top-1 right-0 animate-pulse" style="animation-delay: 0.5s;"></div>
-                <div class="w-0.5 h-0.5 bg-magenta rounded-full absolute bottom-0 left-1 animate-pulse" style="animation-delay: 1s;"></div>
-              </div>
-              <component :is="SparklesIcon" :size="28" class="text-violet group-hover:text-magenta transition-colors duration-200" />
+  <header
+    class="fixed inset-x-0 top-0 z-50 transition-all duration-500"
+    :class="isScrolled ? 'py-3 backdrop-blur-xl' : 'py-6'">
+    <div class="mx-auto w-full max-w-6xl px-6">
+      <nav class="glass-panel relative flex items-center justify-between overflow-hidden rounded-full px-6 py-4">
+        <div class="flex items-center gap-3">
+          <NuxtLink to="/" class="group flex items-center gap-3">
+            <div class="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-rose-soft/30 via-violet/35 to-aurora/30">
+              <div class="absolute inset-0 rounded-full bg-white/10 blur-xl transition-opacity duration-500 group-hover:opacity-60"></div>
+              <Sparkles class="relative h-5 w-5 text-rose-soft transition-transform duration-500 group-hover:scale-110 group-hover:text-rose-deep" />
             </div>
-            <span class="font-heading font-bold text-xl text-text-base">Cosmic</span>
+            <span class="font-heading text-xl font-semibold tracking-tight text-text-base">
+              AstroCanvas
+            </span>
           </NuxtLink>
-          
-          <!-- Desktop Navigation -->
-          <div class="hidden md:flex items-center gap-8">
-            <NuxtLink 
-              v-for="item in navItems"
-              :key="item.name"
-              :to="item.href"
-              class="relative text-text-muted hover:text-text-base transition-colors duration-200 py-2"
-            >
-              {{ item.name }}
-              <!-- Active indicator -->
-              <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-violet to-magenta scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left"></div>
-            </NuxtLink>
-          </div>
-          
-          <!-- CTA Button (Desktop) -->
-          <button class="hidden md:block cta-button px-6 py-2.5 rounded-full font-medium text-white focus-cosmic">
-            Get Reading
-          </button>
-          
-          <!-- Mobile Menu Toggle -->
-          <button 
-            @click="toggleMenu"
-            class="md:hidden p-2 text-text-base hover:text-violet transition-colors duration-200 focus-cosmic"
-          >
-            <component :is="isMenuOpen ? CloseIcon : MenuIcon" :size="24" />
-          </button>
         </div>
-      </nav>
-    </div>
-    
-    <!-- Mobile Menu -->
-    <Transition
-      enter-active-class="transition-all duration-300 ease-cosmic"
-      enter-from-class="opacity-0 -translate-y-4"
-      enter-to-class="opacity-100 translate-y-0"
-      leave-active-class="transition-all duration-200 ease-cosmic"
-      leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 -translate-y-4"
-    >
-      <div v-if="isMenuOpen" class="md:hidden mt-4 mx-4">
-        <div class="glass-surface rounded-2xl p-6 space-y-4">
-          <NuxtLink 
+
+        <div class="hidden items-center gap-1 lg:flex">
+          <NuxtLink
             v-for="item in navItems"
-            :key="item.name"
+            :key="item.href"
             :to="item.href"
-            @click="closeMenu"
-            class="block text-text-muted hover:text-text-base transition-colors duration-200 py-2 text-lg"
+            class="nav-pill"
           >
-            {{ item.name }}
+            <span>{{ item.label }}</span>
           </NuxtLink>
-          <hr class="border-white/10">
-          <button 
-            @click="closeMenu"
-            class="w-full cta-button px-6 py-3 rounded-full font-medium text-white focus-cosmic"
-          >
-            Get Reading
-          </button>
         </div>
-      </div>
-    </Transition>
+
+        <div class="hidden items-center gap-3 lg:flex">
+          <button class="hero-pill focus-visible:focus-outline">
+            <Sparkles class="h-4 w-4 text-rose-soft" />
+            <span class="font-semibold text-text-base">Live constellations</span>
+          </button>
+          <NuxtLink to="#astro" class="hero-cta focus-visible:focus-outline">
+            Explore compatibility
+            <ArrowUpRight class="h-4 w-4" />
+          </NuxtLink>
+        </div>
+
+        <button
+          class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-text-base transition-colors duration-300 focus-visible:focus-outline lg:hidden"
+          @click="toggleMenu"
+        >
+          <component :is="isMenuOpen ? X : Menu" class="h-5 w-5" />
+        </button>
+      </nav>
+
+      <Transition
+        enter-active-class="transition duration-400 ease-[cubic-bezier(0.33,1,0.68,1)]"
+        enter-from-class="-translate-y-4 opacity-0"
+        enter-to-class="translate-y-0 opacity-100"
+        leave-active-class="transition duration-300 ease-[cubic-bezier(0.33,1,0.68,1)]"
+        leave-from-class="translate-y-0 opacity-100"
+        leave-to-class="-translate-y-3 opacity-0"
+      >
+        <div
+          v-if="isMenuOpen"
+          class="glass-panel mt-4 flex flex-col gap-3 rounded-3xl px-6 py-6 lg:hidden"
+        >
+          <NuxtLink
+            v-for="item in navItems"
+            :key="item.href"
+            :to="item.href"
+            class="nav-pill w-full justify-start"
+            @click="closeMenu"
+          >
+            <span>{{ item.label }}</span>
+          </NuxtLink>
+          <NuxtLink to="#astro" class="hero-cta justify-center focus-visible:focus-outline" @click="closeMenu">
+            Explore compatibility
+            <ArrowUpRight class="h-4 w-4" />
+          </NuxtLink>
+        </div>
+      </Transition>
+    </div>
   </header>
 </template>
 
 <script setup lang="ts">
-const SparklesIcon = resolveComponent('IconSparkles')
-const MenuIcon = resolveComponent('IconMenu')
-const CloseIcon = resolveComponent('IconX')
+import { ArrowUpRight, Menu, Sparkles, X } from 'lucide-vue-next'
+
+const navItems = [
+  { label: 'Forecast', href: '#forecast' },
+  { label: 'Compatibility', href: '#astro' },
+  { label: 'Tarot', href: '#tarot' },
+  { label: 'Pricing', href: '#pricing' }
+]
 
 const isMenuOpen = ref(false)
 const isScrolled = ref(false)
-
-const navItems = [
-  { name: 'Readings', href: '#readings' },
-  { name: 'About', href: '#about' },
-  { name: 'Zodiac', href: '#zodiac' },
-  { name: 'Services', href: '#services' },
-]
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
@@ -107,14 +99,15 @@ const closeMenu = () => {
 }
 
 const handleScroll = () => {
-  isScrolled.value = window.scrollY > 20
+  isScrolled.value = window.scrollY > 12
 }
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
+  handleScroll()
+  window.addEventListener('scroll', handleScroll, { passive: true })
 })
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll)
 })
 </script>
