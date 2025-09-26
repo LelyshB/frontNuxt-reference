@@ -21,16 +21,26 @@
           </NuxtLink>
           
           <!-- Desktop Navigation -->
-          <div class="hidden md:flex items-center gap-8">
-            <NuxtLink 
+          <div class="hidden md:flex items-center gap-6 lg:gap-8">
+            <NuxtLink
               v-for="item in navItems"
               :key="item.name"
               :to="item.href"
-              class="relative text-text-muted hover:text-text-base transition-colors duration-200 py-2"
+              class="group relative inline-flex items-center px-3 py-2 text-sm font-medium text-text-muted transition-all duration-300 focus-visible:text-text-base"
             >
-              {{ item.name }}
-              <!-- Active indicator -->
-              <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-violet to-magenta scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left"></div>
+              <span
+                class="relative z-10 tracking-wide uppercase text-xs lg:text-sm transition-colors duration-300 group-hover:text-text-base group-focus-visible:text-text-base"
+              >
+                {{ item.name }}
+              </span>
+              <span
+                aria-hidden="true"
+                class="pointer-events-none absolute inset-x-2 inset-y-1 rounded-full bg-rose/15 opacity-0 blur-sm transition-all duration-300 group-hover:opacity-100 group-hover:blur-sm"
+              />
+              <span
+                aria-hidden="true"
+                class="pointer-events-none absolute bottom-0 left-1/2 h-0.5 w-full -translate-x-1/2 scale-x-0 rounded-full bg-gradient-to-r from-rose via-amethyst to-aurora-teal transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100"
+              />
             </NuxtLink>
           </div>
           

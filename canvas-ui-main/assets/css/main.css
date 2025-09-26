@@ -5,52 +5,60 @@
 @layer base {
   :root {
     /* Background System */
-    --bg-950: 249 39% 4%;      /* #07060B - deep space */
-    --bg-900: 255 28% 6%;      /* #0A0914 - primary background */
-    --surface: 248 31% 12%;     /* #141326 - cards and surfaces */
+    --bg-950: 249 39% 4%;
+    --bg-900: 255 28% 6%;
+    --surface: 248 31% 12%;
 
     /* Text System */
-    --text-base: 249 45% 95%;  /* #ECEAF7 - primary text */
-    --text-muted: 251 23% 78%; /* #B9B5D1 - secondary text */
+    --text-base: 249 45% 95%;
+    --text-muted: 251 23% 78%;
 
-    /* Accent Colors (Amethyst → Aurora Teal, Rose, Amber) */
-    --amethyst: 260 100% 68%;   /* #9B5CFF */
-    --aurora-teal: 170 77% 56%; /* #3FE0C5 */
-    --rose: 320 100% 71%;       /* #FF6BCB */
-    --amber: 43 85% 54%;        /* #F0B429 */
+    /* Accent Colors */
+    --amethyst: 260 100% 68%;
+    --aurora-teal: 170 77% 56%;
+    --rose: 320 100% 71%;
+    --amber: 43 85% 54%;
 
-    /* Legacy aliases for backward compatibility */
+    /* Aliases */
     --violet: var(--amethyst);
     --magenta: var(--rose);
     --mint: var(--aurora-teal);
     --starlight: var(--amber);
 
-    /* Gradient Tokens */
+    /* Gradients */
     --gradient-cosmic: linear-gradient(135deg, hsl(var(--amethyst)), hsl(var(--aurora-teal)));
+    --gradient-accent: linear-gradient(120deg, hsl(var(--amethyst) / 0.75), hsl(var(--rose) / 0.6));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--amethyst)), hsl(var(--rose)) 55%, hsl(var(--aurora-teal)) 100%);
 
-    /* Border System */
+    /* Borders */
     --border-default: hsla(0, 0%, 100%, 0.06);
-    --border-hover: hsla(0, 0%, 100%, 0.10);
-    --border-focus: hsl(var(--amethyst) / 0.4);
+    --border-hover: hsla(0, 0%, 100%, 0.1);
+    --border-focus: hsl(var(--amethyst) / 0.45);
 
-    /* Shadows & Glows */
+    /* Shadows */
     --glow-violet: 0 0 28px hsl(var(--amethyst) / 0.28);
     --glow-magenta: 0 0 28px hsl(var(--aurora-teal) / 0.24);
+    --shadow-glass: 0 14px 45px hsla(0, 0%, 0%, 0.45);
+    --card-backdrop: radial-gradient(140% 140% at 50% 0%, hsl(var(--surface) / 0.92) 0%, hsl(var(--surface) / 0.68) 70%);
+    --gloss-specular: linear-gradient(115deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(0, 0%, 100%, 0.04) 55%, transparent 70%);
 
-    /* Animation Curves */
+    /* Timing */
     --ease-cosmic: cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
   * {
     border-color: var(--border-default);
   }
-  
+
   body {
     @apply bg-bg-950 text-text-base font-body;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-image:
+      radial-gradient(circle at 20% 80%, hsla(var(--violet), 0.05) 0%, transparent 55%),
+      radial-gradient(circle at 78% 18%, hsla(var(--magenta), 0.04) 0%, transparent 50%);
+    background-attachment: fixed;
   }
 
-  /* Typography System */
   h1, h2, h3 {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
@@ -63,57 +71,149 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
 
-  /* Focus System */
   .focus-cosmic {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-950;
   }
+
   .focus-cosmic:focus-visible {
-    --tw-ring-color: hsl(var(--violet) / 0.4);
+    --tw-ring-color: var(--border-focus);
   }
 }
 
 @layer components {
-  /* Glass Effect */
   .glass-surface {
-    @apply backdrop-blur-xl border;
-    background-color: hsl(var(--surface) / 0.8);
+    @apply backdrop-blur-2xl border;
+    background: hsl(var(--surface) / 0.82);
     border-color: var(--border-default);
+    box-shadow: var(--shadow-glass);
   }
 
   .glass-hover:hover {
-    background-color: hsl(var(--surface) / 0.9);
+    background: hsl(var(--surface) / 0.9);
     border-color: var(--border-hover);
   }
 
-  /* Gradient Text */
   .gradient-text {
-    @apply bg-gradient-to-r from-amethyst to-aurora-teal bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-amethyst via-rose to-aurora-teal bg-clip-text text-transparent;
   }
 
-  /* Button Variants */
+  .gradient-hero {
+    background-image: var(--gradient-hero);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
   .btn-cosmic {
-    @apply relative px-8 py-4 rounded-full bg-gradient-to-r from-violet to-aurora-teal text-white font-medium;
-    @apply transform-gpu transition-all duration-200 ease-out;
-    @apply hover:scale-[1.02] hover:shadow-lg focus-cosmic;
+    @apply relative inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-white font-medium focus-cosmic;
+    background-image: linear-gradient(135deg, hsl(var(--violet)), hsl(var(--magenta)) 50%, hsl(var(--mint)) 100%);
+    transition: transform 0.35s var(--ease-cosmic), box-shadow 0.35s var(--ease-cosmic);
+    box-shadow: 0 16px 36px hsla(var(--violet), 0.28);
+  }
+
+  .btn-cosmic::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: linear-gradient(135deg, hsla(var(--violet), 0.4), hsla(var(--magenta), 0.35));
+    filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.35s var(--ease-cosmic);
+    z-index: -1;
+  }
+
+  .btn-cosmic:hover,
+  .btn-cosmic:focus-visible {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 20px 40px hsla(var(--violet), 0.32);
+  }
+
+  .btn-cosmic:hover::before,
+  .btn-cosmic:focus-visible::before {
+    opacity: 1;
   }
 
   .cta-button {
     @apply btn-cosmic;
   }
 
-  /* Orbital Animation */
   @keyframes orbit {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes shimmer {
+    0%,
+    100% {
+      transform: translateX(-120%);
+    }
+    50% {
+      transform: translateX(120%);
+    }
   }
 
   .orbit-ring {
     animation: orbit 20s linear infinite;
   }
 
-  /* Reduced Motion Support */
+  .shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent, hsla(0, 0%, 100%, 0.16), transparent);
+    animation: shimmer 2.3s ease-in-out infinite;
+    opacity: 0.4;
+  }
+
+  .tilt-hover {
+    transform: perspective(900px) rotateX(0deg) rotateY(0deg) scale(1);
+    transition: transform 0.45s var(--ease-cosmic);
+  }
+
+  .tilt-hover:hover,
+  .tilt-hover:focus-visible {
+    transform: perspective(900px) rotateX(-2deg) rotateY(4deg) scale(1.02);
+  }
+
+  .gloss-sheen {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gloss-sheen::before {
+    content: '';
+    position: absolute;
+    inset: -140% -60%;
+    background: linear-gradient(120deg, transparent, hsla(0, 0%, 100%, 0.18), transparent);
+    transform: translateX(-100%);
+    transition: transform 1.05s ease;
+    pointer-events: none;
+  }
+
+  .gloss-sheen:hover::before,
+  .gloss-sheen:focus-visible::before {
+    transform: translateX(120%);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .orbit-ring { animation: none; }
-    .parallax { transform: none !important; }
+    .orbit-ring {
+      animation: none;
+    }
+    .shimmer {
+      animation: none;
+    }
   }
 }
