@@ -7,40 +7,45 @@
       <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
         <!-- Background Effects -->
         <StarfieldCanvas />
-        
+        <div class="absolute inset-0 pointer-events-none">
+          <div class="absolute top-[18%] left-1/2 h-80 w-[720px] -translate-x-1/2 rounded-full bg-gradient-to-r from-violet/35 via-rose/20 to-aurora-teal/30 blur-[140px] opacity-80"></div>
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(155,92,255,0.12),transparent_55%),radial-gradient(circle_at_80%_35%,rgba(63,224,197,0.08),transparent_60%)]"></div>
+        </div>
+
         <!-- Hero Content -->
         <div class="relative z-10 container mx-auto px-6 text-center">
-          <div class="max-w-4xl mx-auto space-y-8">
+          <div class="mx-auto flex max-w-4xl flex-col items-center gap-10">
             <!-- Animated Badge -->
-            <div class="inline-flex items-center gap-2 glass-surface rounded-full px-6 py-3 text-sm font-medium text-starlight border border-white/10 animate-fade-in">
-              <IconSparkles :size="16" class="animate-pulse" />
-              <span>Discover Your Cosmic Destiny</span>
+            <div class="relative inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-7 py-3 text-xs font-semibold uppercase tracking-[0.35em] text-starlight shadow-[0_18px_40px_rgba(7,6,11,0.45)]">
+              <span class="absolute inset-0 rounded-full bg-gradient-to-r from-white/15 via-white/5 to-transparent opacity-70 blur-xl" aria-hidden="true"></span>
+              <span class="relative flex items-center gap-2">
+                <IconSparkles :size="16" class="text-starlight" />
+                Your Cosmic Blueprint
+              </span>
             </div>
-            
+
             <!-- Main Headline -->
-            <h1 class="font-heading font-bold text-6xl md:text-7xl lg:text-8xl leading-tight">
-              <span class="gradient-text">Unlock the</span><br>
-              <span class="text-white">Mysteries of</span><br>
-              <span class="gradient-text">the Universe</span>
+            <h1 class="font-heading text-5xl font-extrabold leading-tight text-white sm:text-6xl md:text-7xl lg:text-8xl">
+              Unlock Your <span class="gradient-hero">Cosmic</span> Destiny
             </h1>
-            
+
             <!-- Subtitle -->
-            <p class="text-xl md:text-2xl text-text-muted max-w-3xl mx-auto leading-relaxed">
-              Journey through cosmic wisdom with personalized horoscopes, mystical tarot readings, 
-              and profound astrological insights that illuminate your path forward.
+            <p class="text-lg text-text-muted md:text-xl lg:text-2xl">
+              Discover the ancient wisdom of the stars with personalized astrology readings that illuminate your path forward.
             </p>
-            
+
             <!-- CTA Buttons -->
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-              <NuxtLink 
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center">
+              <NuxtLink
                 to="/astro"
-                class="btn-primary px-8 py-4 rounded-full font-medium text-lg transition-all duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-starlight focus-visible:ring-offset-2 focus-visible:ring-offset-bg-950"
+                class="btn-cosmic text-base sm:text-lg"
               >
-                Get Your Reading
+                Start Your Journey
+                <IconSparkles :size="18" />
               </NuxtLink>
-              <button 
+              <button
                 @click="scrollToExplore"
-                class="btn-secondary px-8 py-4 rounded-full font-medium text-lg transition-all duration-200 hover:scale-105 flex items-center gap-2 mx-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-starlight focus-visible:ring-offset-2 focus-visible:ring-offset-bg-950"
+                class="relative inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-8 py-4 text-base font-medium text-text-base transition-all duration-300 hover:border-rose/60 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose/50 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-950"
               >
                 Explore Services
                 <IconChevronDown :size="20" />
@@ -48,10 +53,10 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <IconChevronDown :size="24" class="text-starlight opacity-60" />
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-starlight/80">
+          <IconChevronDown :size="28" />
         </div>
       </section>
       
@@ -72,7 +77,7 @@
           />
           
           <!-- Zodiac Grid -->
-          <div ref="zodiacRef" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <ZodiacBadge
               v-for="(sign, index) in zodiacSigns"
               :key="sign.name"
@@ -102,9 +107,9 @@
                   Let the cosmos guide you towards clarity, purpose, and profound understanding 
                   of your place in the universe.
                 </p>
-                <NuxtLink 
+                <NuxtLink
                   to="/auth"
-                  class="btn-primary inline-flex items-center gap-2 px-8 py-4 rounded-full font-medium text-lg transition-all duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-starlight focus-visible:ring-offset-2 focus-visible:ring-offset-bg-950"
+                  class="btn-cosmic inline-flex items-center gap-2 px-8 py-4 text-lg"
                 >
                   Start Your Reading
                   <IconArrowRight :size="20" />
@@ -145,49 +150,7 @@ const zodiacSigns = [
   { name: 'Pisces', dateRange: 'Feb 19 - Mar 20', iconName: 'Droplet', description: 'Compassionate and artistic soul' },
 ]
 
-const zodiacRef = ref<HTMLElement>()
-
-onMounted(() => {
-  // Intersection Observer for zodiac cards
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const cards = entry.target.querySelectorAll('.group')
-          cards.forEach((card, index) => {
-            setTimeout(() => {
-              card.classList.add('animate-fade-in-up')
-            }, index * 100)
-          })
-        }
-      })
-    },
-    { threshold: 0.1 }
-  )
-
-  if (zodiacRef.value) {
-    observer.observe(zodiacRef.value)
-  }
-
-  // Parallax effect
-  const handleScroll = () => {
-    const scrollY = window.scrollY
-    const parallaxElements = document.querySelectorAll('[data-parallax]')
-    
-    parallaxElements.forEach((element) => {
-      const rate = parseFloat(element.getAttribute('data-parallax') || '0')
-      const yPos = -(scrollY * rate)
-      ;(element as HTMLElement).style.transform = `translateY(${yPos}px)`
-    })
-  }
-
-  window.addEventListener('scroll', handleScroll)
-
-  onUnmounted(() => {
-    observer.disconnect()
-    window.removeEventListener('scroll', handleScroll)
-  })
-})
+// Legacy React parallax effect not required; animations handled per-component
 
 // SEO
 useHead({
